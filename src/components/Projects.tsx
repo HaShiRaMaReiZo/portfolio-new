@@ -2,98 +2,14 @@
 
 import { useState } from 'react';
 import { Container, Row, Col, Card, Button, Badge, Modal } from 'react-bootstrap';
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  technologies: string[];
-  liveUrl: string;
-  githubUrl: string;
-  category: string;
-  featured: boolean;
-}
+import Image from 'next/image';
+import { projects, categories, type Project } from '@/data/projects';
 
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
-  const projects: Project[] = [
-    {
-      id: 1,
-      title: 'E-Commerce Platform',
-      description: 'A full-stack e-commerce solution with payment integration, user authentication, and admin dashboard.',
-      image: '/project1.jpg',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com',
-      category: 'web',
-      featured: true
-    },
-    {
-      id: 2,
-      title: 'Task Management App',
-      description: 'A collaborative task management application with real-time updates and team collaboration features.',
-      image: '/project2.jpg',
-      technologies: ['Next.js', 'TypeScript', 'PostgreSQL', 'Socket.io'],
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com',
-      category: 'web',
-      featured: true
-    },
-    {
-      id: 3,
-      title: 'Weather Dashboard',
-      description: 'A responsive weather application with location-based forecasts and interactive maps.',
-      image: '/project3.jpg',
-      technologies: ['React', 'OpenWeather API', 'Chart.js', 'Bootstrap'],
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com',
-      category: 'web',
-      featured: false
-    },
-    {
-      id: 4,
-      title: 'Mobile Banking App',
-      description: 'A secure mobile banking application with biometric authentication and transaction management.',
-      image: '/project4.jpg',
-      technologies: ['React Native', 'Node.js', 'PostgreSQL', 'JWT'],
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com',
-      category: 'mobile',
-      featured: true
-    },
-    {
-      id: 5,
-      title: 'Data Visualization Tool',
-      description: 'An interactive data visualization platform for business analytics and reporting.',
-      image: '/project5.jpg',
-      technologies: ['D3.js', 'Python', 'Flask', 'MySQL'],
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com',
-      category: 'data',
-      featured: false
-    },
-    {
-      id: 6,
-      title: 'Social Media Dashboard',
-      description: 'A comprehensive social media management dashboard with analytics and scheduling features.',
-      image: '/project6.jpg',
-      technologies: ['Vue.js', 'Express.js', 'MongoDB', 'Chart.js'],
-      liveUrl: 'https://example.com',
-      githubUrl: 'https://github.com',
-      category: 'web',
-      featured: false
-    }
-  ];
-
-  const categories = [
-    { key: 'all', label: 'All Projects' },
-    { key: 'web', label: 'Web Development' },
-    { key: 'mobile', label: 'Mobile Apps' },
-    { key: 'data', label: 'Data Science' }
-  ];
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedComponentIndex, setSelectedComponentIndex] = useState<number | null>(null);
 
   const filteredProjects = selectedCategory === 'all' 
     ? projects 
@@ -108,34 +24,39 @@ export default function Projects() {
               My <span className="text-danger">Projects</span>
             </h2>
             <p className="lead text-light">
-              Here are some of my recent work and side projects
+              Here are some of my recent work own by me.
+            </p>
+            <p className="lead text-light">
+              A lot of project are not listed here because they are own by company and client.
             </p>
           </Col>
         </Row>
 
-        {/* Category Filter */}
-        <Row className="mb-5">
-          <Col className="text-center">
-            <div className="d-flex flex-wrap justify-content-center gap-2">
-              {categories.map((category) => (
-                <Button
-                  key={category.key}
-                  variant={selectedCategory === category.key ? 'light' : 'danger'}
-                  onClick={() => setSelectedCategory(category.key)}
-                  className="px-4 py-2 rounded-pill"
-                  style={{
-                    transition: 'all 0.3s ease',
-                    backgroundColor: selectedCategory === category.key ? 'white' : '#ff0000',
-                    color: selectedCategory === category.key ? '#ff0000' : 'white',
-                    border: selectedCategory === category.key ? '2px solid #ff0000' : 'none'
-                  }}
-                >
-                  {category.label}
-                </Button>
-              ))}
-            </div>
-          </Col>
-        </Row>
+        {/* Category Filter - Only show if there are multiple categories */}
+        {categories.length > 1 && (
+          <Row className="mb-5">
+            <Col className="text-center">
+              <div className="d-flex flex-wrap justify-content-center gap-2">
+                {categories.map((category) => (
+                  <Button
+                    key={category.key}
+                    variant={selectedCategory === category.key ? 'light' : 'danger'}
+                    onClick={() => setSelectedCategory(category.key)}
+                    className="px-4 py-2 rounded-pill"
+                    style={{
+                      transition: 'all 0.3s ease',
+                      backgroundColor: selectedCategory === category.key ? 'white' : '#ff0000',
+                      color: selectedCategory === category.key ? '#ff0000' : 'white',
+                      border: selectedCategory === category.key ? '2px solid #ff0000' : 'none'
+                    }}
+                  >
+                    {category.label}
+                  </Button>
+                ))}
+              </div>
+            </Col>
+          </Row>
+        )}
 
         {/* Projects Grid */}
         <Row>
@@ -147,10 +68,17 @@ export default function Projects() {
                 onClick={() => setSelectedProject(project)}
               >
                 <div className="position-relative overflow-hidden">
-                  <Card.Img 
-                    variant="top" 
+                  <Image
                     src={project.image}
-                    style={{ height: '250px', objectFit: 'cover' }}
+                    alt={project.title}
+                    width={400}
+                    height={250}
+                    className="w-100"
+                    style={{ 
+                      height: '250px', 
+                      objectFit: 'cover',
+                      cursor: 'pointer'
+                    }}
                   />
                   {project.featured && (
                     <Badge 
@@ -208,28 +136,32 @@ export default function Projects() {
                   </div>
                   
                   <div className="d-flex gap-2">
-                    <Button 
-                      variant="outline-danger" 
-                      size="sm"
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <i className="fas fa-external-link-alt me-1"></i>
-                      Live
-                    </Button>
-                    <Button 
-                      variant="outline-secondary" 
-                      size="sm"
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <i className="fab fa-github me-1"></i>
-                      Code
-                    </Button>
+                    {project.liveUrl && (
+                      <Button 
+                        variant="outline-danger" 
+                        size="sm"
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <i className="fas fa-external-link-alt me-1"></i>
+                        Live
+                      </Button>
+                    )}
+                    {project.githubUrl && (
+                      <Button 
+                        variant="outline-secondary" 
+                        size="sm"
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <i className="fab fa-github me-1"></i>
+                        Code
+                      </Button>
+                    )}
                   </div>
                 </Card.Body>
               </Card>
@@ -240,24 +172,215 @@ export default function Projects() {
         {/* Project Modal */}
         <Modal 
           show={selectedProject !== null} 
-          onHide={() => setSelectedProject(null)}
+          onHide={() => {
+            setSelectedProject(null);
+            setSelectedImageIndex(0);
+            setSelectedComponentIndex(null);
+          }}
           size="lg"
           centered
         >
-          {selectedProject && (
-            <>
-              <Modal.Header closeButton>
-                <Modal.Title>{selectedProject.title}</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <img 
-                  src={selectedProject.image} 
-                  alt={selectedProject.title}
-                  className="img-fluid rounded mb-3"
-                />
-                <p className="text-light mb-3">{selectedProject.description}</p>
+          {selectedProject && (() => {
+            // Determine which screenshots to show
+            const hasComponentScreenshots = selectedProject.components?.some(c => c.screenshots && c.screenshots.length > 0);
+            let currentScreenshots: string[] = [];
+            
+            if (hasComponentScreenshots && selectedComponentIndex !== null && selectedProject.components?.[selectedComponentIndex]?.screenshots) {
+              // Show screenshots for selected component
+              currentScreenshots = selectedProject.components[selectedComponentIndex].screenshots || [];
+            } else if (hasComponentScreenshots && selectedComponentIndex === null) {
+              // Show all screenshots from all components
+              currentScreenshots = selectedProject.components?.flatMap(c => c.screenshots || []) || [];
+            } else {
+              // Fallback to main screenshots array or main image
+              currentScreenshots = selectedProject.screenshots || [selectedProject.image];
+            }
+            
+            return (
+              <>
+                <Modal.Header closeButton className="bg-dark text-white">
+                  <Modal.Title>{selectedProject.title}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="bg-dark">
+                  {/* Component Tabs - Show if components have screenshots */}
+                  {hasComponentScreenshots && selectedProject.components && (
+                    <div className="mb-4">
+                      <div className="d-flex flex-wrap gap-2 mb-3">
+                        <Button
+                          variant={selectedComponentIndex === null ? 'danger' : 'outline-danger'}
+                          size="sm"
+                          onClick={() => {
+                            setSelectedComponentIndex(null);
+                            setSelectedImageIndex(0);
+                          }}
+                          className="rounded-pill"
+                        >
+                          All Screenshots
+                        </Button>
+                        {selectedProject.components.map((component, index) => (
+                          component.screenshots && component.screenshots.length > 0 && (
+                            <Button
+                              key={index}
+                              variant={selectedComponentIndex === index ? 'danger' : 'outline-danger'}
+                              size="sm"
+                              onClick={() => {
+                                setSelectedComponentIndex(index);
+                                setSelectedImageIndex(0);
+                              }}
+                              className="rounded-pill"
+                            >
+                              {component.name}
+                            </Button>
+                          )
+                        ))}
+                      </div>
+                      {selectedComponentIndex !== null && selectedProject.components[selectedComponentIndex] && (
+                        <div className="mb-3 p-2 bg-secondary bg-opacity-10 rounded">
+                          <small className="text-white">
+                            <strong className="text-danger">{selectedProject.components[selectedComponentIndex].name}:</strong>{' '}
+                            {selectedProject.components[selectedComponentIndex].description}
+                          </small>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Image Gallery */}
+                  {currentScreenshots && currentScreenshots.length > 0 ? (
+                    <div className="mb-4">
+                      <div className="position-relative mb-3" style={{ height: '400px', overflow: 'hidden', borderRadius: '8px' }}>
+                        <Image
+                          src={currentScreenshots[selectedImageIndex] || currentScreenshots[0]}
+                          alt={`${selectedProject.title} - Screenshot ${selectedImageIndex + 1}`}
+                          fill
+                          className="object-contain"
+                          style={{ borderRadius: '8px' }}
+                        />
+                        
+                        {/* Navigation Buttons */}
+                        {currentScreenshots.length > 1 && (
+                          <>
+                            <Button
+                              variant="danger"
+                              className="position-absolute start-0 top-50 translate-middle-y"
+                              style={{
+                                left: '10px',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                zIndex: 10,
+                                opacity: selectedImageIndex === 0 ? 0.5 : 1,
+                                cursor: selectedImageIndex === 0 ? 'not-allowed' : 'pointer'
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (selectedImageIndex > 0) {
+                                  setSelectedImageIndex(selectedImageIndex - 1);
+                                }
+                              }}
+                              disabled={selectedImageIndex === 0}
+                            >
+                              <i className="fas fa-chevron-left"></i>
+                            </Button>
+                            <Button
+                              variant="danger"
+                              className="position-absolute end-0 top-50 translate-middle-y"
+                              style={{
+                                right: '10px',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                zIndex: 10,
+                                opacity: selectedImageIndex === currentScreenshots.length - 1 ? 0.5 : 1,
+                                cursor: selectedImageIndex === currentScreenshots.length - 1 ? 'not-allowed' : 'pointer'
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (selectedImageIndex < currentScreenshots.length - 1) {
+                                  setSelectedImageIndex(selectedImageIndex + 1);
+                                }
+                              }}
+                              disabled={selectedImageIndex === currentScreenshots.length - 1}
+                            >
+                              <i className="fas fa-chevron-right"></i>
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                      {currentScreenshots.length > 1 && (
+                        <div className="d-flex gap-2 overflow-auto pb-2" style={{ maxWidth: '100%' }}>
+                          {currentScreenshots.map((screenshot, index) => (
+                            <div
+                              key={index}
+                              onClick={() => setSelectedImageIndex(index)}
+                              className="position-relative"
+                              style={{
+                                minWidth: '100px',
+                                height: '80px',
+                                cursor: 'pointer',
+                                border: selectedImageIndex === index ? '3px solid #ff0000' : '2px solid transparent',
+                                borderRadius: '4px',
+                                overflow: 'hidden',
+                                transition: 'all 0.3s ease'
+                              }}
+                            >
+                              <Image
+                                src={screenshot}
+                                alt={`Thumbnail ${index + 1}`}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="position-relative mb-3" style={{ height: '400px', overflow: 'hidden', borderRadius: '8px' }}>
+                      <Image
+                        src={selectedProject.image}
+                        alt={selectedProject.title}
+                        fill
+                        className="object-contain"
+                        style={{ borderRadius: '8px' }}
+                      />
+                    </div>
+                  )}
+                
+                <p className="text-white mb-3">
+                  {selectedProject.fullDescription || selectedProject.description}
+                </p>
+                
+                {/* Components */}
+                {selectedProject.components && selectedProject.components.length > 0 && (
+                  <div className="mb-3">
+                    <strong className="text-white">Components:</strong>
+                    {selectedProject.components.map((component, index) => (
+                      <Card key={index} className="mt-2 bg-secondary bg-opacity-10 border-0">
+                        <Card.Body className="p-3">
+                          <h6 className="text-danger mb-2">{component.name}</h6>
+                          <p className="text-white small mb-2">{component.description}</p>
+                          <div>
+                            {component.technologies.map((tech) => (
+                              <Badge key={tech} bg="dark" className="me-1 mb-1" style={{ fontSize: '0.7rem' }}>
+                                {tech}
+                              </Badge>
+                            ))}
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+                
                 <div className="mb-3">
-                  <strong>Technologies Used:</strong>
+                  <strong className="text-white">Technologies Used:</strong>
                   <div className="mt-2">
                     {selectedProject.technologies.map((tech) => (
                       <Badge 
@@ -271,24 +394,31 @@ export default function Projects() {
                   </div>
                 </div>
               </Modal.Body>
-              <Modal.Footer>
+              <Modal.Footer className="bg-dark">
                 <Button 
                   variant="outline-secondary" 
-                  onClick={() => setSelectedProject(null)}
+                  onClick={() => {
+                    setSelectedProject(null);
+                    setSelectedImageIndex(0);
+                    setSelectedComponentIndex(null);
+                  }}
                 >
                   Close
                 </Button>
-                <Button 
-                  variant="danger"
-                  href={selectedProject.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View Live Project
-                </Button>
+                {selectedProject.liveUrl && (
+                  <Button 
+                    variant="danger"
+                    href={selectedProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View Live Project
+                  </Button>
+                )}
               </Modal.Footer>
-            </>
-          )}
+              </>
+            );
+          })()}
         </Modal>
 
         {/* Call to Action */}

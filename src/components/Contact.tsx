@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
+import emailjs from '@emailjs/browser';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -23,13 +24,44 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus('idle');
     
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // EmailJS configuration
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+      
+      // Check if EmailJS is configured
+      if (!serviceId || !templateId || !publicKey || 
+          serviceId === 'YOUR_SERVICE_ID' || 
+          templateId === 'YOUR_TEMPLATE_ID' || 
+          publicKey === 'YOUR_PUBLIC_KEY') {
+        throw new Error('EmailJS is not configured. Please set up your EmailJS credentials in .env.local file.');
+      }
+      
+      // Initialize EmailJS with your public key
+      emailjs.init(publicKey);
+      
+      // Send email with template parameters
+      // Note: Variable names must match your EmailJS template variables
+      await emailjs.send(serviceId, templateId, {
+        name: formData.name || 'Anonymous',        // Matches {{name}} in template
+        email: formData.email,                      // Matches {{email}} in template
+        title: formData.subject || 'Contact Form Submission', // Matches {{title}} in template
+        message: formData.message,                 // Matches {{message}} in template
+        time: new Date().toLocaleString(),          // Matches {{time}} in template (optional)
+      });
+      
+      // Success
       setIsSubmitting(false);
       setSubmitStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 2000);
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setIsSubmitting(false);
+      setSubmitStatus('error');
+    }
   };
 
   const contactInfo = [
@@ -56,26 +88,32 @@ export default function Contact() {
     {
       name: 'GitHub',
       icon: 'fab fa-github',
-      url: 'https://github.com',
+      url: 'https://github.com/HaShiRaMaReiZo',
       color: '#333'
     },
     {
       name: 'LinkedIn',
       icon: 'fab fa-linkedin-in',
-      url: 'https://linkedin.com',
+      url: 'https://www.linkedin.com/in/zwe-mann-htet',
       color: '#0077b5'
-    },
-    {
-      name: 'Twitter',
-      icon: 'fab fa-twitter',
-      url: 'https://twitter.com',
-      color: '#1da1f2'
     },
     {
       name: 'Instagram',
       icon: 'fab fa-instagram',
       url: 'https://instagram.com',
       color: '#e4405f'
+    },
+    {
+      name: 'Telegram',
+      icon: 'fab fa-telegram',
+      url: 'https://t.me/erickboyle',
+      color: '#0088cc'
+    },
+    {
+      name: 'Viber',
+      icon: 'fab fa-viber',
+      url: 'viber://chat?number=+959792627041',
+      color: '#8F5DB7'
     }
   ];
 
@@ -139,7 +177,7 @@ export default function Contact() {
                           value={formData.email}
                           onChange={handleChange}
                           required
-                          placeholder="your.email@example.com"
+                          placeholder="yourgmail@gmail.com"
                           className="border-2"
                         />
                       </Form.Group>
@@ -178,18 +216,22 @@ export default function Contact() {
                     variant="danger"
                     size="lg"
                     disabled={isSubmitting}
-                    className="btn-custom px-5 py-3"
+                    className="px-5 py-3"
                     style={{
                       backgroundColor: '#ff0000',
                       borderColor: '#ff0000',
                       color: 'white',
-                      transition: 'all 0.3s ease'
+                      transition: 'all 0.3s ease',
+                      borderRadius: '25px',
+                      fontWeight: '500'
                     }}
                     onMouseEnter={(e) => {
                       if (!e.currentTarget.disabled) {
                         e.currentTarget.style.backgroundColor = 'white';
                         e.currentTarget.style.color = '#ff0000';
                         e.currentTarget.style.borderColor = '#ff0000';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 5px 15px rgba(255, 0, 0, 0.4)';
                       }
                     }}
                     onMouseLeave={(e) => {
@@ -197,6 +239,8 @@ export default function Contact() {
                         e.currentTarget.style.backgroundColor = '#ff0000';
                         e.currentTarget.style.color = 'white';
                         e.currentTarget.style.borderColor = '#ff0000';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = 'none';
                       }
                     }}
                   >

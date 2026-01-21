@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, ProgressBar } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 
 interface Skill {
   name: string;
@@ -13,14 +13,15 @@ export default function About() {
   const [visibleSkills, setVisibleSkills] = useState<boolean[]>([]);
 
   const skills: Skill[] = [
-    { name: 'JavaScript/TypeScript', percentage: 90, color: '#ff0000' },
-    { name: 'React/Next.js', percentage: 85, color: '#ff0000' },
-    { name: 'Node.js', percentage: 80, color: '#ff0000' },
-    { name: 'Python', percentage: 75, color: '#ff0000' },
-    { name: 'HTML/CSS', percentage: 95, color: '#ff0000' },
-    { name: 'Bootstrap/Tailwind', percentage: 88, color: '#ff0000' },
-    { name: 'MongoDB', percentage: 70, color: '#ff0000' },
-    { name: 'PostgreSQL', percentage: 75, color: '#ff0000' },
+    { name: 'JavaScript/TypeScript', percentage: 70, color: '#ff0000' },
+    { name: 'React/Next.js', percentage: 65, color: '#ff0000' },
+    { name: 'Node.js', percentage: 65, color: '#ff0000' },
+    { name: 'HTML/CSS', percentage: 70, color: '#ff0000' },
+    { name: 'Bootstrap/Tailwind', percentage: 65, color: '#ff0000' },
+    { name: 'Flutter', percentage: 80, color: '#ff0000' },
+    { name: 'MySQL', percentage: 60, color: '#ff0000' },
+    { name: 'MongoDB', percentage: 60, color: '#ff0000' },
+    { name: 'PostgreSQL', percentage: 60, color: '#ff0000' },
   ];
 
   useEffect(() => {
@@ -79,13 +80,13 @@ export default function About() {
                 <div className="row g-3">
                   <div className="col-6">
                     <div className="text-center">
-                      <h4 className="text-danger mb-0">50+</h4>
+                      <h4 className="text-danger mb-0">20+</h4>
                       <small className="text-light">Projects Completed</small>
                     </div>
                   </div>
                   <div className="col-6">
                     <div className="text-center">
-                      <h4 className="text-danger mb-0">4+</h4>
+                      <h4 className="text-danger mb-0">2+</h4>
                       <small className="text-light">Years Experience</small>
                     </div>
                   </div>

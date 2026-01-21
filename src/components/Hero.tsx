@@ -5,13 +5,13 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import Image from 'next/image';
 
 export default function Hero() {
-  const [currentText, setCurrentText] = useState('');
+  const texts = ['Full Stack Developer', 'Mobile App Developer', 'UI/UX Designer', 'Problem Solver'];
+  
+  const [currentText, setCurrentText] = useState(texts[0]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [textIndex, setTextIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(texts[0].length);
   const [isMounted, setIsMounted] = useState(false);
-
-  const texts = ['Full Stack Developer', 'Mobile App Developer', 'UI/UX Designer', 'Problem Solver'];
 
   useEffect(() => {
     setIsMounted(true);
@@ -38,8 +38,8 @@ export default function Hero() {
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, textIndex, texts, isMounted]);
 
-  // Show first text immediately on client, empty on server
-  const displayText = isMounted ? currentText : texts[0];
+  // Use currentText directly to prevent hydration mismatch
+  const displayText = currentText;
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -152,7 +152,7 @@ export default function Hero() {
               {/* Social Links */}
               <div className="d-flex gap-3">
                 <a 
-                  href="https://github.com" 
+                  href="https://github.com/HaShiRaMaReiZo" 
                   className="social-icon github"
                   target="_blank" 
                   rel="noopener noreferrer"
@@ -160,7 +160,7 @@ export default function Hero() {
                   <i className="fab fa-github"></i>
                 </a>
                 <a 
-                  href="https://linkedin.com" 
+                  href="https://www.linkedin.com/in/zwe-mann-htet" 
                   className="social-icon linkedin"
                   target="_blank" 
                   rel="noopener noreferrer"
@@ -168,20 +168,28 @@ export default function Hero() {
                   <i className="fab fa-linkedin-in"></i>
                 </a>
                 <a 
-                  href="https://twitter.com" 
-                  className="social-icon twitter"
+                    href="https://t.me/erickboyle" 
+                  className="social-icon telegram"
                   target="_blank" 
                   rel="noopener noreferrer"
                 >
-                  <i className="fab fa-twitter"></i>
+                  <i className="fab fa-telegram"></i>
                 </a>
                 <a 
-                  href="https://instagram.com" 
+                  href="https://www.instagram.com/zwe_mann_htet/" 
                   className="social-icon instagram"
                   target="_blank" 
                   rel="noopener noreferrer"
                 >
                   <i className="fab fa-instagram"></i>
+                </a>
+                <a 
+                  href="viber://chat?number=+959792627041" 
+                  className="social-icon viber"
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  <i className="fab fa-viber"></i>
                 </a>
               </div>
             </div>
@@ -253,18 +261,6 @@ export default function Hero() {
         </div>
       </div>
       
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        
-        @keyframes bounce {
-          0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-          40% { transform: translateY(-10px); }
-          60% { transform: translateY(-5px); }
-        }
-      `}</style>
     </section>
   );
 }
