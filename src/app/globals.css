@@ -191,6 +191,46 @@ h1, h2, h3, h4, h5, h6 {
 .social-icon.linkedin { background: #0077b5; }
 .social-icon.github { background: #333; }
 .social-icon.instagram { background: #e4405f; }
+.social-icon.telegram { background: #0088cc; }
+.social-icon.viber { background: #665CAC; }
+
+/* Navbar visibility */
+.navbar {
+  z-index: 1030 !important;
+}
+
+.navbar-brand {
+  color: #ff0000 !important;
+}
+
+.navbar-nav .nav-link {
+  color: white !important;
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* Hide desktop nav on mobile */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    display: none !important;
+  }
+}
+
+/* Offcanvas backdrop */
+.offcanvas-backdrop {
+  z-index: 1035 !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.offcanvas {
+  z-index: 1040 !important;
+}
 
 /* Responsive utilities */
 @media (max-width: 768px) {
@@ -200,5 +240,11 @@ h1, h2, h3, h4, h5, h6 {
   
   .typewriter {
     font-size: 1.5rem;
+  }
+  
+  /* Ensure navbar is visible on mobile */
+  .navbar {
+    background-color: rgba(15, 15, 15, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
   }
 }

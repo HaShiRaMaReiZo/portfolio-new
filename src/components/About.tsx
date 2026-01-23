@@ -67,7 +67,7 @@ export default function About() {
               <Card.Body className="p-4">
                 <h3 className="h4 text-white mb-3">My Story</h3>
                 <p className="text-white mb-3">
-                  I'm a passionate full-stack developer with over 5 years of experience 
+                  I'm a passionate full-stack developer with over 2 years of experience 
                   in creating digital solutions that make a difference. My journey began 
                   with a curiosity about how websites work, and it has evolved into a 
                   deep passion for crafting exceptional user experiences.

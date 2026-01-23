@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Professional Portfolio",
+  title: "Erick Boyle's Portfolio",
   description: "A modern, responsive portfolio website built with Next.js and Bootstrap",
 };
 

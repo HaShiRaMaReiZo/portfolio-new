@@ -55,7 +55,8 @@ export default function Hero() {
       style={{
         background: 'linear-gradient(135deg, #000000 0%, #1a1a1a 100%)',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        paddingTop: '76px' // Account for fixed navbar height
       }}
     >
       {/* Background Pattern */}
@@ -101,23 +102,29 @@ export default function Hero() {
                 <Button 
                   variant="danger" 
                   size="lg" 
-                  className="btn-custom px-4 py-3"
+                  className="px-4 py-3"
                   onClick={() => scrollToSection('projects')}
                   style={{
                     backgroundColor: '#ff0000',
                     borderColor: '#ff0000',
                     color: 'white',
-                    transition: 'all 0.3s ease'
+                    transition: 'all 0.3s ease',
+                    borderRadius: '25px',
+                    fontWeight: '500'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor = 'white';
                     e.currentTarget.style.color = '#ff0000';
                     e.currentTarget.style.borderColor = '#ff0000';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 5px 15px rgba(255, 0, 0, 0.4)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = '#ff0000';
                     e.currentTarget.style.color = 'white';
                     e.currentTarget.style.borderColor = '#ff0000';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
                   }}
                 >
                   View My Work
@@ -176,7 +183,7 @@ export default function Hero() {
                   <i className="fab fa-telegram"></i>
                 </a>
                 <a 
-                  href="https://www.instagram.com/zwe_mann_htet/" 
+                  href="https://www.instagram.com/erick_boyle_2004" 
                   className="social-icon instagram"
                   target="_blank" 
                   rel="noopener noreferrer"

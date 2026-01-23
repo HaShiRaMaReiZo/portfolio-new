@@ -100,7 +100,7 @@ export default function Contact() {
     {
       name: 'Instagram',
       icon: 'fab fa-instagram',
-      url: 'https://instagram.com',
+      url: 'https://www.instagram.com/erick_boyle_2004',
       color: '#e4405f'
     },
     {

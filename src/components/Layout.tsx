@@ -35,23 +35,24 @@ export default function Layout({ children }: LayoutProps) {
       <Navbar 
         expand="lg" 
         fixed="top" 
-        className={`transition-all duration-300 ${
-          isScrolled 
-            ? 'shadow-lg' 
-            : 'bg-transparent'
-        }`}
+        className="transition-all duration-300"
         style={{ 
           transition: 'all 0.3s ease',
-          backdropFilter: isScrolled ? 'blur(10px)' : 'none',
-          backgroundColor: isScrolled ? '#0f0f0f' : 'transparent'
+          backdropFilter: isScrolled ? 'blur(10px)' : 'blur(5px)',
+          backgroundColor: isScrolled ? '#0f0f0f' : 'rgba(15, 15, 15, 0.8)',
+          zIndex: 1030,
+          boxShadow: isScrolled ? '0 2px 10px rgba(0,0,0,0.5)' : 'none'
         }}
       >
         <Container>
           <Navbar.Brand 
             as={Link} 
             href="#home"
-            className="fw-bold fs-3 text-danger"
-            style={{ textShadow: '0 0 10px rgba(255, 0, 0, 0.3)' }}
+            className="fw-bold fs-3"
+            style={{ 
+              color: '#ff0000 !important',
+              textShadow: '0 0 10px rgba(255, 0, 0, 0.3)'
+            }}
           >
             Portfolio
           </Navbar.Brand>
@@ -64,7 +65,7 @@ export default function Layout({ children }: LayoutProps) {
             <span className="navbar-toggler-icon"></span>
           </Navbar.Toggle>
 
-          <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Collapse id="basic-navbar-nav" className="d-none d-lg-block">
             <Nav className="ms-auto">
               {navItems.map((item) => (
                 <Nav.Link
@@ -96,6 +97,7 @@ export default function Layout({ children }: LayoutProps) {
         onHide={() => setShowOffcanvas(false)}
         placement="end"
         className="w-75"
+        style={{ zIndex: 1040 }}
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title className="fw-bold text-danger">
