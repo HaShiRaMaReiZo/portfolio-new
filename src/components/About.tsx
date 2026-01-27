@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
+import { useScrollTransition } from '@/hooks/useScrollTransition';
 
 interface Skill {
   name: string;
@@ -11,6 +12,8 @@ interface Skill {
 
 export default function About() {
   const [visibleSkills, setVisibleSkills] = useState<boolean[]>([]);
+  const { sectionRef, isVisible } = useScrollTransition({ sectionId: 'about', previousSectionId: 'home' });
+  const { sectionRef: skillsSectionRef, isVisible: skillsVisible } = useScrollTransition({ sectionId: 'skills', previousSectionId: 'about' });
 
   const skills: Skill[] = [
     { name: 'JavaScript/TypeScript', percentage: 70, color: '#ff0000' },
@@ -25,10 +28,11 @@ export default function About() {
   ];
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    // Observer for individual skill items (only when Skills section is visible)
+    const skillObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && skillsVisible) {
             const skillIndex = parseInt(entry.target.getAttribute('data-skill-index') || '0');
             setVisibleSkills(prev => {
               const newVisible = [...prev];
@@ -38,17 +42,28 @@ export default function About() {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.3 }
     );
 
     const skillElements = document.querySelectorAll('.skill-item');
-    skillElements.forEach((element) => observer.observe(element));
+    skillElements.forEach((element) => skillObserver.observe(element));
 
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      skillObserver.disconnect();
+    };
+  }, [skillsVisible]);
 
   return (
-    <section id="about" className="section-padding" style={{ backgroundColor: '#000000' }}>
+    <Fragment>
+    <section 
+      ref={sectionRef}
+      id="about" 
+      className={`section-padding scroll-section ${isVisible ? 'visible' : ''}`}
+      style={{ 
+        backgroundColor: '#000000',
+        minHeight: '100vh'
+      }}
+    >
       <Container>
         <Row className="mb-5">
           <Col className="text-center">
@@ -130,8 +145,21 @@ export default function About() {
             </div>
           </Col>
         </Row>
+      </Container>
+    </section>
 
-        <Row id="skills">
+    {/* Skills Section - Separate section for scroll transitions */}
+    <section 
+      id="skills" 
+      ref={skillsSectionRef}
+      className={`section-padding scroll-section ${skillsVisible ? 'visible' : ''}`}
+      style={{ 
+        backgroundColor: '#000000',
+        minHeight: '100vh'
+      }}
+    >
+      <Container>
+        <Row>
           <Col>
             <Card className="border-0 shadow-lg">
               <Card.Body className="p-5">
@@ -225,5 +253,6 @@ export default function About() {
         </Row>
       </Container>
     </section>
+    </Fragment>
   );
 }

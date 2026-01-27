@@ -232,6 +232,37 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 1040 !important;
 }
 
+/* Scroll-based fade animations */
+.scroll-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+  pointer-events: none; /* Prevent interaction when hidden */
+}
+
+.scroll-section.visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  pointer-events: auto; /* Enable interaction when visible */
+}
+
+/* Make sure content is always accessible, just visually hidden */
+.scroll-section * {
+  visibility: inherit;
+}
+
+.scroll-section.fade-out {
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: opacity 0.6s ease-in, transform 0.6s ease-in;
+}
+
+/* Ensure sections are visible if they have the visible class */
+.scroll-section.visible * {
+  visibility: visible;
+}
+
 /* Responsive utilities */
 @media (max-width: 768px) {
   .section-padding {
@@ -246,5 +277,21 @@ h1, h2, h3, h4, h5, h6 {
   .navbar {
     background-color: rgba(15, 15, 15, 0.95) !important;
     backdrop-filter: blur(10px) !important;
+  }
+
+  /* Mobile spacing for social icons and profile image */
+  @media (max-width: 991.98px) {
+    .social-icon {
+      margin: 0 5px;
+    }
+    
+    /* Add extra spacing between social icons and profile image on mobile */
+    #home .d-flex.gap-3 {
+      margin-bottom: 2rem !important;
+    }
+    
+    #home .text-center {
+      margin-top: 2rem !important;
+    }
   }
 }

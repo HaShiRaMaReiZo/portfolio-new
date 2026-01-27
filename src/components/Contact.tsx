@@ -3,8 +3,10 @@
 import { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import emailjs from '@emailjs/browser';
+import { useScrollTransition } from '@/hooks/useScrollTransition';
 
 export default function Contact() {
+  const { sectionRef, isVisible } = useScrollTransition({ sectionId: 'contact', previousSectionId: 'projects' });
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -118,7 +120,15 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="section-padding" style={{ backgroundColor: '#000000' }}>
+    <section 
+      ref={sectionRef}
+      id="contact" 
+      className={`section-padding scroll-section ${isVisible ? 'visible' : ''}`}
+      style={{ 
+        backgroundColor: '#000000',
+        minHeight: '100vh'
+      }}
+    >
       <Container>
         <Row className="mb-5">
           <Col className="text-center">

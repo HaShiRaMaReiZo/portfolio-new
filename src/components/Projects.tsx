@@ -4,8 +4,10 @@ import { useState } from 'react';
 import { Container, Row, Col, Card, Button, Badge, Modal } from 'react-bootstrap';
 import Image from 'next/image';
 import { projects, categories, type Project } from '@/data/projects';
+import { useScrollTransition } from '@/hooks/useScrollTransition';
 
 export default function Projects() {
+  const { sectionRef, isVisible } = useScrollTransition({ sectionId: 'projects', previousSectionId: 'skills' });
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -16,7 +18,15 @@ export default function Projects() {
     : projects.filter(project => project.category === selectedCategory);
 
   return (
-    <section id="projects" className="section-padding" style={{ backgroundColor: '#000000' }}>
+    <section 
+      ref={sectionRef}
+      id="projects" 
+      className={`section-padding scroll-section ${isVisible ? 'visible' : ''}`}
+      style={{ 
+        backgroundColor: '#000000',
+        minHeight: '100vh'
+      }}
+    >
       <Container>
         <Row className="mb-5">
           <Col className="text-center">

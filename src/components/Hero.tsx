@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Image from 'next/image';
+import { useScrollTransition } from '@/hooks/useScrollTransition';
 
 export default function Hero() {
+  const { sectionRef, isVisible } = useScrollTransition({ sectionId: 'home', previousSectionId: null, initialVisible: true });
   const texts = ['Full Stack Developer', 'Mobile App Developer', 'UI/UX Designer', 'Problem Solver'];
   
   const [currentText, setCurrentText] = useState(texts[0]);
@@ -50,13 +52,16 @@ export default function Hero() {
 
   return (
     <section 
+      ref={sectionRef}
       id="home" 
-      className="min-vh-100 d-flex align-items-center"
+      className={`min-vh-100 d-flex align-items-center scroll-section ${isVisible ? 'visible' : ''}`}
       style={{
         background: 'linear-gradient(135deg, #000000 0%, #1a1a1a 100%)',
         position: 'relative',
         overflow: 'hidden',
-        paddingTop: '76px' // Account for fixed navbar height
+        paddingTop: '76px', // Account for fixed navbar height
+        minHeight: '100vh',
+        justifyContent: 'center'
       }}
     >
       {/* Background Pattern */}
@@ -68,8 +73,8 @@ export default function Hero() {
         }}
       />
       
-      <Container className="position-relative z-1">
-        <Row className="align-items-center min-vh-100">
+      <Container className="position-relative z-1" style={{ paddingTop: '1rem' }}>
+        <Row className="align-items-center">
           <Col lg={6} className="text-white">
             <div className="fade-in-up">
               <h1 className="display-4 fw-bold mb-4">
@@ -157,7 +162,7 @@ export default function Hero() {
               </div>
               
               {/* Social Links */}
-              <div className="d-flex gap-3">
+              <div className="d-flex gap-3 mb-4 mb-lg-0" style={{ marginTop: '1.5rem' }}>
                 <a 
                   href="https://github.com/HaShiRaMaReiZo" 
                   className="social-icon github"
@@ -203,7 +208,7 @@ export default function Hero() {
           </Col>
           
           <Col lg={6} className="text-center">
-            <div className="fade-in-up">
+            <div className="fade-in-up" style={{ marginTop: '2rem' }}>
               <div 
                 className="position-relative d-inline-block"
                 style={{
