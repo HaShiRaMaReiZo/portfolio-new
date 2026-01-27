@@ -25,22 +25,106 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Apply to all elements */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ff0000 #0f0f0f;
+}
+
+/* Webkit scrollbar (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f0f0f;
+  background: #0f0f0f !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
+  background: #ff0000 !important;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff0000;
+  background: #ff0000 !important;
+}
+
+/* Apply to html and body specifically for better mobile support */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #ff0000 #0f0f0f;
+}
+
+html::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+html::-webkit-scrollbar-track {
+  background: #0f0f0f !important;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: #ff0000 !important;
+  border-radius: 4px;
+}
+
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #ff0000 #0f0f0f;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #0f0f0f !important;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #ff0000 !important;
+  border-radius: 4px;
+}
+
+/* Mobile-specific scrollbar styling */
+@media (max-width: 768px) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #ff0000 #0f0f0f;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #ff0000 !important;
+    border-radius: 3px !important;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #0f0f0f !important;
+  }
+  
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+  }
+  
+  html::-webkit-scrollbar-thumb,
+  body::-webkit-scrollbar-thumb {
+    background: #ff0000 !important;
+  }
+  
+  html::-webkit-scrollbar-track,
+  body::-webkit-scrollbar-track {
+    background: #0f0f0f !important;
+  }
 }
 
 /* Override Bootstrap danger color to use pure red */

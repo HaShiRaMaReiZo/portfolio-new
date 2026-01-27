@@ -97,32 +97,32 @@ export default function Layout({ children }: LayoutProps) {
         onHide={() => setShowOffcanvas(false)}
         placement="end"
         className="w-75"
-        style={{ zIndex: 1040 }}
+        style={{ zIndex: 1040, backgroundColor: '#0f0f0f' }}
       >
-        <Offcanvas.Header closeButton>
+        <Offcanvas.Header closeButton style={{ backgroundColor: '#0f0f0f', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
           <Offcanvas.Title className="fw-bold text-danger">
             Portfolio
           </Offcanvas.Title>
         </Offcanvas.Header>
-        <Offcanvas.Body>
+        <Offcanvas.Body style={{ backgroundColor: '#0f0f0f' }}>
           <Nav className="flex-column">
             {navItems.map((item) => (
               <Nav.Link
                 key={item.href}
                 href={item.href}
-                className="py-3 fw-medium text-dark"
+                className="py-3 fw-medium text-white"
                 onClick={() => setShowOffcanvas(false)}
                 style={{
-                  borderBottom: '1px solid rgb(0, 0, 0)',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
                   transition: 'all 0.3s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#f8f9fa';
-                  e.currentTarget.style.color = '#dc3545';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
+                  e.currentTarget.style.color = '#ff0000';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#212529';
+                  e.currentTarget.style.color = 'white';
                 }}
               >
                 {item.label}

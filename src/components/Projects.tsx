@@ -258,7 +258,7 @@ export default function Projects() {
                   {/* Image Gallery */}
                   {currentScreenshots && currentScreenshots.length > 0 ? (
                     <div className="mb-4">
-                      <div className="position-relative mb-3" style={{ height: '400px', overflow: 'hidden', borderRadius: '8px' }}>
+                      <div className="position-relative mb-3" style={{ height: '400px', overflow: 'hidden', borderRadius: '8px', backgroundColor: '#0f0f0f' }}>
                         <Image
                           src={currentScreenshots[selectedImageIndex] || currentScreenshots[0]}
                           alt={`${selectedProject.title} - Screenshot ${selectedImageIndex + 1}`}
@@ -337,7 +337,8 @@ export default function Projects() {
                                 border: selectedImageIndex === index ? '3px solid #ff0000' : '2px solid transparent',
                                 borderRadius: '4px',
                                 overflow: 'hidden',
-                                transition: 'all 0.3s ease'
+                                transition: 'all 0.3s ease',
+                                backgroundColor: '#0f0f0f'
                               }}
                             >
                               <Image
@@ -352,7 +353,7 @@ export default function Projects() {
                       )}
                     </div>
                   ) : (
-                    <div className="position-relative mb-3" style={{ height: '400px', overflow: 'hidden', borderRadius: '8px' }}>
+                    <div className="position-relative mb-3" style={{ height: '400px', overflow: 'hidden', borderRadius: '8px', backgroundColor: '#0f0f0f' }}>
                       <Image
                         src={selectedProject.image}
                         alt={selectedProject.title}

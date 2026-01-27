@@ -13,7 +13,7 @@ export function useScrollTransition(options: UseScrollTransitionOptions) {
   const [isVisible, setIsVisible] = useState(initialVisible);
   const isVisibleRef = useRef(initialVisible);
   const sectionRef = useRef<HTMLElement>(null);
-  const lastScrollY = useRef(window.scrollY);
+  const lastScrollY = useRef(typeof window !== 'undefined' ? window.scrollY : 0);
 
   useEffect(() => {
     // Get element by ID (primary) or use ref
@@ -23,16 +23,16 @@ export function useScrollTransition(options: UseScrollTransitionOptions) {
       return;
     }
 
-    // Visibility check function based on 50% viewport logic
+    // Visibility check function based on 1/3 (33%) viewport logic
     const checkVisibility = () => {
       const currentSection = document.getElementById(sectionId);
       if (!currentSection) return;
 
       const viewportHeight = window.innerHeight;
-      const viewportCenter = viewportHeight * 0.3; // 50% threshold for smooth transitions
+      const viewportThreshold = viewportHeight * (1/3); // 1/3 (33%) threshold for smooth transitions
       
       const currentRect = currentSection.getBoundingClientRect();
-      const isCurrentPast50 = currentRect.bottom < viewportCenter;
+      const isCurrentPastThreshold = currentRect.bottom < viewportThreshold;
       
       let shouldBeVisible = false;
 
@@ -42,13 +42,13 @@ export function useScrollTransition(options: UseScrollTransitionOptions) {
         if (!prevSection) return;
         
         const prevRect = prevSection.getBoundingClientRect();
-        const isPrevPast50 = prevRect.bottom < viewportCenter;
+        const isPrevPastThreshold = prevRect.bottom < viewportThreshold;
         
-        // Show current section when previous is past 50% AND current is not past 50%
-        shouldBeVisible = isPrevPast50 && !isCurrentPast50;
+        // Show current section when previous is past 1/3 AND current is not past 1/3
+        shouldBeVisible = isPrevPastThreshold && !isCurrentPastThreshold;
       } else {
-        // First section (Home) - visible until past 50%
-        shouldBeVisible = !isCurrentPast50;
+        // First section (Home) - visible until past 1/3
+        shouldBeVisible = !isCurrentPastThreshold;
       }
 
       // Update visibility state if it changed
