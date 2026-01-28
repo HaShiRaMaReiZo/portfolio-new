@@ -22,8 +22,8 @@ export default function About() {
     { name: 'HTML/CSS', percentage: 70, color: '#ff0000' },
     { name: 'Bootstrap/Tailwind', percentage: 65, color: '#ff0000' },
     { name: 'Flutter', percentage: 80, color: '#ff0000' },
-    { name: 'MySQL', percentage: 60, color: '#ff0000' },
     { name: 'PHP / Laravel', percentage: 65, color: '#ff0000' },
+    { name: 'MySQL', percentage: 60, color: '#ff0000' },
     { name: 'PostgreSQL', percentage: 60, color: '#ff0000' },
   ];
 
